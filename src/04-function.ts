@@ -45,3 +45,27 @@ console.log(fullUrl);
 // ...省略号在带有剩余参数的函数类型定义上使用
 let getUrlFun: (prefix: string, ...rest: string[]) => string = getUrl2;
 console.log(getUrlFun("/base/", "user", "getList"));
+
+// 5. 函数重载
+// 重载函数声明
+function add4(x: string, y: string): string;
+function add4(x: number, y: number): number;
+// 重载实现
+function add4(x: string | number, y: string | number): string | number {
+  // 在实现上要注意严格判断两个参数的类型是否相等，不能简单写一个 x+y
+  if (typeof x === "string" || typeof y === "string") {
+    return `${x}${y}`;
+    // return x + y;
+  } else if (typeof x === "number" && typeof y === "number") {
+    return x + y;
+  } else {
+    throw new Error("无效的参数：这两个参数必须都是字符串或都是数字。");
+  }
+}
+console.log(add4(2, 17)); // 19
+console.log(add4("金风", "玉露")); // 金风玉露
+// try {
+// console.log(add4(17, "金风"));// error
+// } catch (error) {
+//   console.error(error.message);
+// }
